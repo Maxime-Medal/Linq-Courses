@@ -15,6 +15,18 @@ var adressFaker = new Faker<Address>()
 
 var personnes = personFaker.Generate(100);
 var addresses = adressFaker.Generate(25);
+var personnes2 = new List<People>(100);
+
+for (int p = 0; p < 100; p++)
+{
+    if (p % 5 == 0)
+    {
+        personnes2.Add(personnes[p].Clone());
+    }else
+    {
+        personnes2.Add(personFaker.Generate());
+    }
+}
 
 // ---------------------- Random ----------------------
 // ---------------------------------------------------
@@ -214,13 +226,25 @@ foreach (var person in personnes)
 // --------------------- Concat ---------------------
 // ------------------------------------------
 
-var allPersons = personnes.Concat(personnes.SelectMany(p => p.Children)); // le selectMany vient mettre à plate la liste des enfants pour l'ajouter à la liste
+//var allPersons = personnes.Concat(personnes.SelectMany(p => p.Children)); // le selectMany vient mettre à plate la liste des enfants pour l'ajouter à la liste
 
-int v = 0;
-foreach (var person in allPersons)
+//int v = 0;
+//foreach (var person in allPersons)
+//{
+//    v++;
+//    Console.WriteLine($"{v} - {person.FirstName} {person.LastName}");
+
+//}
+//Console.WriteLine(allPersons.Count());
+
+// --------------------- Union & UnionBy --------------------- 
+// ------------------------------------------
+
+// créer la liste de toute les personnes différentes 
+
+var unionedPersons = personnes.UnionBy(personnes2, p => (p.FirstName, p.LastName));
+foreach (var item in unionedPersons.OrderBy(p => p.LastName))
 {
-    v++;
-    Console.WriteLine($"{v} - {person.FirstName} {person.LastName}");
-
+    Console.WriteLine($"{item.FirstName} {item.LastName}");
 }
-Console.WriteLine(allPersons.Count());
+Console.WriteLine(unionedPersons.Count());

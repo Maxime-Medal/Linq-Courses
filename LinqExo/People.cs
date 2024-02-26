@@ -13,5 +13,10 @@ namespace LinqExercise
         public int Age { get; set; }
         public List<People> Children { get; set; }
         public int AddressId { get; set; }
+
+        public People? Clone()
+        {
+            return MemberwiseClone() as People;
+        }
     }
 }
