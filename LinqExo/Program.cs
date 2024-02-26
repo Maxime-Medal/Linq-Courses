@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using LinqExercise;
 using System;
+using System.Linq;
 Randomizer.Seed = new Random(1);
 
 var personFaker = new Faker<People>()
@@ -15,7 +16,8 @@ var adressFaker = new Faker<Address>()
 var personnes = personFaker.Generate(100);
 var addresses = adressFaker.Generate(25);
 
-// Random
+// ---------------------- Random ----------------------
+// ---------------------------------------------------
 foreach (var person in personnes)
 {
     int childNumber = Random.Shared.Next(0, 6);
@@ -37,7 +39,8 @@ foreach (var person in personnes)
     }
 }
 
-// Where
+// ---------------------- Where ----------------------
+// ---------------------------------------------------
 
 //var personsOver30Years = personnes.Where(p => p.Age > 30);
 
@@ -46,7 +49,8 @@ foreach (var person in personnes)
 //    Console.WriteLine($"{person.FirstName} - {person.Age} ");
 //}
 
-// Take
+// ---------------------- Take ----------------------
+// ---------------------------------------------------
 
 //var first10 = personnes.Take(10);
 
@@ -63,7 +67,9 @@ foreach (var person in personnes)
 //    Console.WriteLine($"{person.LastName} {person.FirstName} - {person.Age} ");
 //}
 
-// Skip
+// ---------------------- Skip ----------------------
+// ---------------------------------------------------
+
 // aller à la page x contrenant y element
 //var personsOnPage = PersonOnChoosePage(personnes, 3, 15);
 
@@ -81,7 +87,8 @@ foreach (var person in personnes)
 //    return sameData.ToList();
 //}
 
-// DistinctBy
+// ---------------------- DistinctBy ----------------------
+// ---------------------------------------------------
 
 //var personsAgeDisctinct = personnes
 //    .DistinctBy(personnes => personnes.Age)
@@ -103,7 +110,8 @@ foreach (var person in personnes)
 
 //}
 
-// SelectMany
+// ---------------------- SelectMany ----------------------
+// ---------------------------------------------------
 
 // récupérer tout les enfants de toutes les personnes
 //Tous les prénoms de tous les enfants
@@ -125,7 +133,8 @@ foreach (var person in personnes)
 //}
 //Console.WriteLine(childrensFirstnames.Count());
 
-// OrderBy
+// ---------------------- OrderBy ----------------------
+// ---------------------------------------------------
 
 //var personsByAgeThenNameAndFirstName = personnes
 //    .OrderBy(a => a.Age)
@@ -135,6 +144,43 @@ foreach (var person in personnes)
 //foreach (var person in personsByAgeThenNameAndFirstName)
 //{
 //    Console.WriteLine($"{person.LastName} {person.FirstName} - {person.Age} ");
+//}
+
+// ---------------------- GroupBy ----------------------
+// ---------------------------------------------------
+
+// grouper les personnes par age et par ordre croissant.
+//var personsGoupedByAge = personnes
+//    .GroupBy(p => p.Age, e => new { e.FirstName, e.LastName})
+//    .OrderBy(p => p.Key); // attention prendre en compte la Key
+
+//foreach (var item in personsGoupedByAge)
+//{
+//    Console.WriteLine($"personnes qui ont {item.Key} ans");
+//    foreach (var p in item)
+//    {
+//        Console.WriteLine($"    {p.FirstName} {p.LastName}");
+//    }
+//}
+
+// ---------------------- Chunk ----------------------
+// ---------------------------------------------------
+
+//var chunkedPersons = personnes.Chunk(40);
+
+//foreach (var item in chunkedPersons)
+//{
+//    Console.WriteLine($"Paquets de {item.Length} persones");
+//}
+
+// ---------------------- Join ----------------------
+// ---------------------------------------------------
+
+//var personnesWithAddress = personnes.Join(addresses, p => p.AddressId, a => a.Id, (person, adress) => 
+//new { person, adress});
+//foreach (var item in personnesWithAddress.OrderBy(p => p.person.LastName))
+//{
+//    Console.WriteLine($"{item.person.LastName} {item.person.FirstName} habite à : {item.adress.AddressPostal}");
 //}
 
 // --------------------- GroupJoin ---------------------
