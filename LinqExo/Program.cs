@@ -3,25 +3,38 @@ using LinqExercise;
 using System;
 Randomizer.Seed = new Random(1);
 
-var faker = new Faker<People>()
+var personFaker = new Faker<People>()
     .RuleFor(p => p.FirstName, f => f.Person.FirstName)
     .RuleFor(p => p.LastName, l => l.Person.LastName)
     .RuleFor(p => p.Age, a => (int)DateTime.Today.Subtract(a.Person.DateOfBirth).TotalDays / 365);
 
-var personnes = faker.Generate(100);
+var adressFaker = new Faker<Address>()
+    .RuleFor(a => a.Id, f => f.IndexFaker)
+    .RuleFor(a => a.AdressPostal, f => f.Address.FullAddress());
+
+var personnes = personFaker.Generate(100);
+var addresses = adressFaker.Generate(25);
 
 // Random
-//foreach (var person in personnes)
-//{
-//    int childNumber = Random.Shared.Next(0, 6); 
-//    person.Children = faker.Generate(childNumber);
-//}
+foreach (var person in personnes)
+{
+    int childNumber = Random.Shared.Next(0, 6);
+    person.Children = personFaker.Generate(childNumber);
+}
+int[] index = new int[100];
 int i = 0;
+int j = 0;
 foreach (var person in personnes)
 {
     int childNumber = i % 6; 
-    person.Children = faker.Generate(childNumber);
+    person.Children = personFaker.Generate(childNumber);
+    index[i] = i;
     i++;
+    person.AddressId = j;
+    if(i % 4 == 0)
+    {
+        j ++;
+    }
 }
 
 // Where
@@ -114,12 +127,54 @@ foreach (var person in personnes)
 
 // OrderBy
 
-var personsByAgeThenNameAndFirstName = personnes
-    .OrderBy(a => a.Age)
-    .ThenBy(p => p.LastName)
-    .ThenBy(p => p.FirstName);
+//var personsByAgeThenNameAndFirstName = personnes
+//    .OrderBy(a => a.Age)
+//    .ThenBy(p => p.LastName)
+//    .ThenBy(p => p.FirstName);
 
-foreach (var person in personsByAgeThenNameAndFirstName)
+//foreach (var person in personsByAgeThenNameAndFirstName)
+//{
+//    Console.WriteLine($"{person.LastName} {person.FirstName} - {person.Age} ");
+//}
+
+// --------------------- GroupJoin ---------------------
+// ------------------------------------------
+
+//// on groupe sur la propriété en commun puis on crée son objet anonyme
+//var personsAtSameAddres = addresses.GroupJoin(personnes, a => a.Id, p => p.AddressId, (a, ps) => new { Adress = a, Persons = ps});
+
+//foreach (var item in personsAtSameAddres)
+//{
+//    Console.WriteLine($"personne à l'addresse : {item.Adress.AdressPostal}");
+//    foreach (var p in item.Persons)
+//    {
+//        Console.WriteLine($"{p.FirstName} {p.LastName}");
+//    }
+//}
+
+// --------------------- Zip ---------------------
+// ------------------------------------------
+
+// lier les index avec  les personne | la personne à l'index x s'apelle xxx xxx
+
+//var PersonNameAtIndex = index.Zip(personnes, (i, p) => new {i, p});
+//var PersonNameAtIndex = index.Zip(personnes, (i, p) => $"a personne à l'index {i} est : {p.FirstName}"); // création d'un string ou d'un objet anonyme
+
+//foreach (var item in PersonNameAtIndex)
+//{
+//    Console.WriteLine(item);
+//}
+
+// --------------------- Concat ---------------------
+// ------------------------------------------
+
+var allPersons = personnes.Concat(personnes.SelectMany(p => p.Children)); // le selectMany vient mettre à plate la liste des enfants pour l'ajouter à la liste
+
+int v = 0;
+foreach (var person in allPersons)
 {
-    Console.WriteLine($"{person.LastName} {person.FirstName} - {person.Age} ");
+    v++;
+    Console.WriteLine($"{v} - {person.FirstName} {person.LastName}");
+
 }
+Console.WriteLine(allPersons.Count());

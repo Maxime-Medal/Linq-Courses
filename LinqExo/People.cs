@@ -12,5 +12,6 @@ namespace LinqExercise
         public string LastName { get; set; }
         public int Age { get; set; }
         public List<People> Children { get; set; }
+        public int AddressId { get; set; }
     }
 }
