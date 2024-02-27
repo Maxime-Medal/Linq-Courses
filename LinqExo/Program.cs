@@ -51,6 +51,9 @@ foreach (var person in personnes)
     }
 }
 
+#region Collection to Collection
+
+
 // ---------------------- Where ----------------------
 // ---------------------------------------------------
 
@@ -255,11 +258,44 @@ foreach (var person in personnes)
 
 // récupérer les personnes dans les deux collections
 
-var commonPersons = personnes.IntersectBy(personnes2.Select(p => (p.LastName, p.FirstName)), n => (n.LastName, n.FirstName));
+//var commonPersons = personnes.IntersectBy(personnes2.Select(p => (p.LastName, p.FirstName)), n => (n.LastName, n.FirstName));
 
-    Console.WriteLine("Personnes en communs");
-Console.WriteLine(commonPersons.Count());
-foreach (var item in commonPersons)
-{
-    Console.WriteLine($"{item.FirstName} {item.LastName}");
-}
+//    Console.WriteLine("Personnes en communs");
+//Console.WriteLine(commonPersons.Count());
+//foreach (var item in commonPersons)
+//{
+//    Console.WriteLine($"{item.FirstName} {item.LastName}");
+//}
+
+#endregion
+
+
+#region Collection to Element/Valeur scalaire
+
+// --------------------- First & Last --------------------- 
+// ------------------------------------------
+
+var orderderPeople = personnes.OrderBy(p => p.LastName);
+var firstAlhpabeticalPerson = orderderPeople.FirstOrDefault();
+var secondAlhpabeticalPerson = orderderPeople.LastOrDefault();
+
+Console.WriteLine($"{firstAlhpabeticalPerson.FirstName} {firstAlhpabeticalPerson.LastName}");
+Console.WriteLine($"{secondAlhpabeticalPerson.FirstName} {secondAlhpabeticalPerson.LastName}");
+
+// --------------------- Single --------------------- 
+// ------------------------------------------
+
+var nums = new int[]{ 1, 2, 3, 4, 5 };
+var num = nums.Single(i => i > 4);
+var entier = nums.Where(i => i > 4).Single(); // souvent utiliser après un where pour vérifier la récupération d'un seul et unique élément
+Console.WriteLine(entier);
+Console.WriteLine(num);
+
+var numOrDefault = nums.SingleOrDefault(n => n > 8, -1);
+Console.WriteLine(numOrDefault);
+
+// --------------------- ElementAt --------------------- voir dans le linqCourse
+// ------------------------------------------
+
+
+#endregion
