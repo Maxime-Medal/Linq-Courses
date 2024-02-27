@@ -242,9 +242,24 @@ foreach (var person in personnes)
 
 // créer la liste de toute les personnes différentes 
 
-var unionedPersons = personnes.UnionBy(personnes2, p => (p.FirstName, p.LastName));
-foreach (var item in unionedPersons.OrderBy(p => p.LastName))
+//var unionedPersons = personnes.UnionBy(personnes2, p => (p.FirstName, p.LastName));
+//foreach (var item in unionedPersons.OrderBy(p => p.LastName))
+//{
+//    Console.WriteLine($"{item.FirstName} {item.LastName}");
+//}
+//Console.WriteLine(unionedPersons.Count());
+
+
+// --------------------- Intersect & intersecptby --------------------- 
+// ------------------------------------------
+
+// récupérer les personnes dans les deux collections
+
+var commonPersons = personnes.IntersectBy(personnes2.Select(p => (p.LastName, p.FirstName)), n => (n.LastName, n.FirstName));
+
+    Console.WriteLine("Personnes en communs");
+Console.WriteLine(commonPersons.Count());
+foreach (var item in commonPersons)
 {
     Console.WriteLine($"{item.FirstName} {item.LastName}");
 }
-Console.WriteLine(unionedPersons.Count());
