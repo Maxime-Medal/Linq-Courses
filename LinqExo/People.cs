@@ -18,5 +18,11 @@ namespace LinqExercise
         {
             return MemberwiseClone() as People;
         }
+
+        //public int CompareTo(People other)
+        //{
+        //    People newP = other as People;
+        //    return Age.CompareTo(newP.Age);
+        //}
     }
 }

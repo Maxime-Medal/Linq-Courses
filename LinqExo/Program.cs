@@ -4,6 +4,8 @@ using System;
 using System.Linq;
 Randomizer.Seed = new Random(1);
 
+
+
 var personFaker = new Faker<People>()
     .RuleFor(p => p.FirstName, f => f.Person.FirstName)
     .RuleFor(p => p.LastName, l => l.Person.LastName)
@@ -285,17 +287,144 @@ Console.WriteLine($"{secondAlhpabeticalPerson.FirstName} {secondAlhpabeticalPers
 // --------------------- Single --------------------- 
 // ------------------------------------------
 
-var nums = new int[]{ 1, 2, 3, 4, 5 };
-var num = nums.Single(i => i > 4);
-var entier = nums.Where(i => i > 4).Single(); // souvent utiliser après un where pour vérifier la récupération d'un seul et unique élément
-Console.WriteLine(entier);
-Console.WriteLine(num);
+//var nums = new int[]{ 1, 2, 3, 4, 5 };
+//var num = nums.Single(i => i > 4);
+//var entier = nums.Where(i => i > 4).Single(); // souvent utiliser après un where pour vérifier la récupération d'un seul et unique élément
+//Console.WriteLine(entier);
+//Console.WriteLine(num);
 
-var numOrDefault = nums.SingleOrDefault(n => n > 8, -1);
-Console.WriteLine(numOrDefault);
+//var numOrDefault = nums.SingleOrDefault(n => n > 8, -1);
+//Console.WriteLine(numOrDefault);
 
 // --------------------- ElementAt --------------------- voir dans le linqCourse
 // ------------------------------------------
 
+//IEnumerable<int> entiers = new[] { 1, 2, 3, 4, 5, 6 };
+
+//var premier = entiers.ElementAt(0);
+//var dernier = entiers.ElementAt(^1);
+
+//var existePas = entiers.ElementAtOrDefault(10);
+//Console.WriteLine(existePas);
+
+// --------------------- MinBy & MaxBy ---------------------
+// ------------------------------------------
+
+//var maxAge = personnes.MaxBy(p =>  p.Age);
+//var minAge = personnes.MinBy(p => p.Age);
+
+//Console.WriteLine($"{maxAge?.LastName} {maxAge?.FirstName} - {maxAge?.Age}");
+//Console.WriteLine($"{minAge?.LastName} {minAge?.FirstName} - {minAge?.Age}");
+
+// --------------------- DefaultIfEmpty ---------------------
+// ------------------------------------------
+//People unknownDefault = new() {
+//    LastName = "Inconnu",
+//    FirstName = "Inconnu",
+//};
+
+//var over69 = personnes.Where(p => p.Age > 69).DefaultIfEmpty(unknownDefault).First();
+
+//Console.WriteLine($"{over69.LastName}");
+
+// --------------------- Count ---------------------
+// ------------------------------------------
+
+//var nbPersons = personnes.Count();
+//var nbPersonsWithChildren = personnes.Concat(personnes.SelectMany(p => p.Children)).Count();
+//var nbPersonsOver50 = personnes.Count(p => p.Age > 50);
+
+//Console.WriteLine(nbPersons);
+//Console.WriteLine(nbPersonsWithChildren);
+//Console.WriteLine(nbPersonsOver50);
+
+// --------------------- Min & Max ---------------------
+// ------------------------------------------
+
+//var minAge1 = personnes.Min();
+//var maxAge1 = personnes.Max();
+//var minAge2 = personnes.Min(p => p.Age);
+//var maxAge2 = personnes.Max(p => p.Age);
+
+//Console.WriteLine(minAge1.Age);
+//Console.WriteLine(maxAge1.Age);
+//Console.WriteLine(minAge2);
+//Console.WriteLine(maxAge2);
+
+// --------------------- Sum ---------------------
+// ------------------------------------------
+
+//var childrenCount = personnes.Sum(p => p.Children.Count);
+
+//Console.WriteLine(childrenCount);
+
+// --------------------- Average ---------------------
+// ------------------------------------------
+
+//var average = personnes.Average(p => p.Age);
+//var averageChildren = personnes.SelectMany(p => p.Children).Average(a => a.Age);
+
+//Console.WriteLine(average);
+//Console.WriteLine(averageChildren);
+
+// --------------------- Any ---------------------
+// ------------------------------------------
+
+//IEnumerable<int> entiers = new[] { 1, 2, 3, 4, 5, 6 };
+
+//var isNotEmpty = entiers.Any();
+//var isValueSup3 = entiers.Any(p => p > 3);
+
+//Console.WriteLine(isNotEmpty);
+
+// --------------------- All ---------------------
+// ------------------------------------------
+
+//IEnumerable<int> entiers2 = new[] { 1, 2, 3, 4, 5, 6 };
+
+//var intSupZero = entiers2.All(n => n > 0);
+//Console.WriteLine(intSupZero);
+
+// --------------------- Contains --------------------- voir linq course
+// ------------------------------------------
+
+//IEnumerable<int> entiers3 = [1, 2, 3, 4, 5, 6];
+
+//var isThere3 = entiers3.Contains(3);
+
+// --------------------- SequenceEqual --------------------- voir linq course
+// ------------------------------------------
+
+//IEnumerable<int> entiers4 = new[] { 1, 2, 3, 4, 5, 6 };
+//IEnumerable<int> entiers5 = new[] { 1, 2, 3, 4, 5, 6 };
+
+//var equal = entiers4.SequenceEqual(entiers5);
+//Console.WriteLine(equal);
+
+// --------------------- Aggregate --------------------- voir linq course
+// ------------------------------------------
+
+// toutes les lettes des noms personnes
+
+var allLetters = personnes.Aggregate(new HashSet<char>(),
+    (letters, p) =>
+    {
+        foreach (var item in p.LastName.ToLower())
+        {
+            letters.Add(item);
+        }
+        return letters;
+    });
+
+foreach (var item in allLetters.OrderBy(l => l))
+{
+    Console.WriteLine(item);
+}
+
+// --------------------- Empty, Range & Repeat --------------------- voir linq course
+// ------------------------------------------
+
+// --------------------- Order et OrderDescending --------------------- voir linq course
+// ------------------------------------------
 
 #endregion
